@@ -1,0 +1,896 @@
+[
+    {
+        "begin": 0,
+        "bitwidth": 16,
+        "consumer": [
+            "24"
+        ],
+        "consumer_num": 1,
+        "end": 384,
+        "index": 0,
+        "input_value": "self.input_value",
+        "name": "x.1",
+        "operation": "OP_INPUT",
+        "output_dim": [
+            1,
+            3,
+            32,
+            32
+        ],
+        "output_dim_num": 4,
+        "provider_num": 0,
+        "new_node_index": 0,
+        "consumer_index": [
+            2
+        ],
+        "provider_index": []
+    },
+    {
+        "bitwidth": 16,
+        "consumer": [
+            "24"
+        ],
+        "consumer_num": 1,
+        "index": 1,
+        "name": "23",
+        "operation": "OP_PAD",
+        "output_dim": [
+            1,
+            3,
+            33,
+            33
+        ],
+        "output_dim_num": 4,
+        "param": {
+            "pad_0_h": 0,
+            "pad_0_w": 0,
+            "pad_1_h": 0,
+            "pad_1_w": 0,
+            "pad_2_h": 0,
+            "pad_2_w": 1,
+            "pad_3_h": 0,
+            "pad_3_w": 1,
+            "value": 0
+        },
+        "provider": [
+            "x.1"
+        ],
+        "provider_num": 1,
+        "input_dim_num": 4,
+        "input_dim": [
+            1,
+            3,
+            32,
+            32
+        ],
+        "new_node_index": 1,
+        "consumer_index": [
+            2
+        ],
+        "provider_index": [
+            0
+        ]
+    },
+    {
+        "bitwidth": 16,
+        "consumer": [
+            "25"
+        ],
+        "consumer_num": 1,
+        "index": 2,
+        "name": "24",
+        "operation": "OP_CONV",
+        "output_dim": [
+            1,
+            4,
+            16,
+            16
+        ],
+        "output_dim_num": 4,
+        "param": {
+            "dilation_h": 1,
+            "dilation_w": 1,
+            "group": 1,
+            "input_channel": 3,
+            "kernel_h": 3,
+            "kernel_w": 3,
+            "output_channel": 4,
+            "pad_h0": 0,
+            "pad_h1": 1,
+            "pad_w0": 0,
+            "pad_w1": 1,
+            "stride_h": 2,
+            "stride_w": 2,
+            "weight_name": "var_1",
+            "weight_name_begin": 384,
+            "weight_name_end": 420,
+            "with_bias": 1,
+            "with_bias_begin": 420,
+            "with_bias_end": 421,
+            "with_bias_name": "var_2"
+        },
+        "provider": [
+            "x.1"
+        ],
+        "provider_num": 1,
+        "input_dim_num": 4,
+        "input_dim": [
+            1,
+            3,
+            32,
+            32
+        ],
+        "with_act": 1,
+        "act_type": 0,
+        "new_node_index": 2,
+        "consumer_index": [],
+        "provider_index": [
+            0
+        ]
+    },
+    {
+        "bitwidth": 16,
+        "consumer": [
+            "27"
+        ],
+        "consumer_num": 1,
+        "index": 3,
+        "name": "26",
+        "operation": "OP_CONV",
+        "output_dim": [
+            1,
+            4,
+            16,
+            16
+        ],
+        "output_dim_num": 4,
+        "param": {
+            "dilation_h": 1,
+            "dilation_w": 1,
+            "group": 1,
+            "input_channel": 4,
+            "kernel_h": 3,
+            "kernel_w": 3,
+            "output_channel": 4,
+            "pad_h0": 1,
+            "pad_h1": 1,
+            "pad_w0": 1,
+            "pad_w1": 1,
+            "stride_h": 1,
+            "stride_w": 1,
+            "weight_name": "var_3",
+            "weight_name_begin": 421,
+            "weight_name_end": 469,
+            "with_bias": 1,
+            "with_bias_begin": 469,
+            "with_bias_end": 470,
+            "with_bias_name": "var_4"
+        },
+        "provider": [
+            "24"
+        ],
+        "provider_num": 1,
+        "input_dim_num": 4,
+        "input_dim": [
+            1,
+            4,
+            16,
+            16
+        ],
+        "with_act": 1,
+        "act_type": 0,
+        "new_node_index": 3,
+        "consumer_index": [],
+        "provider_index": [
+            2
+        ]
+    },
+    {
+        "bitwidth": 16,
+        "consumer": [
+            "29"
+        ],
+        "consumer_num": 1,
+        "index": 4,
+        "name": "28",
+        "operation": "OP_POOL",
+        "output_dim": [
+            1,
+            4,
+            8,
+            8
+        ],
+        "output_dim_num": 4,
+        "param": {
+            "global": 0,
+            "kernel_h": 2,
+            "kernel_w": 2,
+            "pad_h0": 0,
+            "pad_h1": 0,
+            "pad_w0": 0,
+            "pad_w1": 0,
+            "pool_method": 0,
+            "stride_h": 2,
+            "stride_w": 2
+        },
+        "provider": [
+            "26"
+        ],
+        "provider_num": 1,
+        "input_dim_num": 4,
+        "input_dim": [
+            1,
+            4,
+            16,
+            16
+        ],
+        "new_node_index": 4,
+        "consumer_index": [
+            5
+        ],
+        "provider_index": [
+            3
+        ]
+    },
+    {
+        "bitwidth": 16,
+        "consumer": [
+            "30"
+        ],
+        "consumer_num": 1,
+        "index": 5,
+        "name": "29",
+        "operation": "OP_CONV",
+        "output_dim": [
+            1,
+            8,
+            8,
+            8
+        ],
+        "output_dim_num": 4,
+        "param": {
+            "dilation_h": 1,
+            "dilation_w": 1,
+            "group": 1,
+            "input_channel": 4,
+            "kernel_h": 3,
+            "kernel_w": 3,
+            "output_channel": 8,
+            "pad_h0": 1,
+            "pad_h1": 1,
+            "pad_w0": 1,
+            "pad_w1": 1,
+            "stride_h": 1,
+            "stride_w": 1,
+            "weight_name": "var_6",
+            "weight_name_begin": 470,
+            "weight_name_end": 566,
+            "with_bias": 1,
+            "with_bias_begin": 566,
+            "with_bias_end": 567,
+            "with_bias_name": "var_7"
+        },
+        "provider": [
+            "28"
+        ],
+        "provider_num": 1,
+        "input_dim_num": 4,
+        "input_dim": [
+            1,
+            4,
+            8,
+            8
+        ],
+        "with_act": 1,
+        "act_type": 0,
+        "new_node_index": 5,
+        "consumer_index": [],
+        "provider_index": [
+            4
+        ]
+    },
+    {
+        "bitwidth": 16,
+        "consumer": [
+            "32"
+        ],
+        "consumer_num": 1,
+        "index": 6,
+        "name": "31",
+        "operation": "OP_CONV",
+        "output_dim": [
+            1,
+            8,
+            8,
+            8
+        ],
+        "output_dim_num": 4,
+        "param": {
+            "dilation_h": 1,
+            "dilation_w": 1,
+            "group": 1,
+            "input_channel": 8,
+            "kernel_h": 3,
+            "kernel_w": 3,
+            "output_channel": 8,
+            "pad_h0": 1,
+            "pad_h1": 1,
+            "pad_w0": 1,
+            "pad_w1": 1,
+            "stride_h": 1,
+            "stride_w": 1,
+            "weight_name": "var_8",
+            "weight_name_begin": 567,
+            "weight_name_end": 759,
+            "with_bias": 1,
+            "with_bias_begin": 759,
+            "with_bias_end": 760,
+            "with_bias_name": "var_9"
+        },
+        "provider": [
+            "29"
+        ],
+        "provider_num": 1,
+        "input_dim_num": 4,
+        "input_dim": [
+            1,
+            8,
+            8,
+            8
+        ],
+        "with_act": 1,
+        "act_type": 0,
+        "new_node_index": 6,
+        "consumer_index": [],
+        "provider_index": [
+            5
+        ]
+    },
+    {
+        "bitwidth": 16,
+        "consumer": [
+            "34"
+        ],
+        "consumer_num": 1,
+        "index": 7,
+        "name": "33",
+        "operation": "OP_POOL",
+        "output_dim": [
+            1,
+            8,
+            4,
+            4
+        ],
+        "output_dim_num": 4,
+        "param": {
+            "global": 0,
+            "kernel_h": 2,
+            "kernel_w": 2,
+            "pad_h0": 0,
+            "pad_h1": 0,
+            "pad_w0": 0,
+            "pad_w1": 0,
+            "pool_method": 0,
+            "stride_h": 2,
+            "stride_w": 2
+        },
+        "provider": [
+            "31"
+        ],
+        "provider_num": 1,
+        "input_dim_num": 4,
+        "input_dim": [
+            1,
+            8,
+            8,
+            8
+        ],
+        "new_node_index": 7,
+        "consumer_index": [
+            8
+        ],
+        "provider_index": [
+            6
+        ]
+    },
+    {
+        "bitwidth": 16,
+        "consumer": [
+            "35"
+        ],
+        "consumer_num": 1,
+        "index": 8,
+        "name": "34",
+        "operation": "OP_CONV",
+        "output_dim": [
+            1,
+            16,
+            4,
+            4
+        ],
+        "output_dim_num": 4,
+        "param": {
+            "dilation_h": 1,
+            "dilation_w": 1,
+            "group": 1,
+            "input_channel": 8,
+            "kernel_h": 3,
+            "kernel_w": 3,
+            "output_channel": 16,
+            "pad_h0": 1,
+            "pad_h1": 1,
+            "pad_w0": 1,
+            "pad_w1": 1,
+            "stride_h": 1,
+            "stride_w": 1,
+            "weight_name": "var_11",
+            "weight_name_begin": 760,
+            "weight_name_end": 1144,
+            "with_bias": 1,
+            "with_bias_begin": 1144,
+            "with_bias_end": 1160,
+            "with_bias_name": "var_12"
+        },
+        "provider": [
+            "33"
+        ],
+        "provider_num": 1,
+        "input_dim_num": 4,
+        "input_dim": [
+            1,
+            8,
+            4,
+            4
+        ],
+        "with_act": 1,
+        "act_type": 0,
+        "new_node_index": 8,
+        "consumer_index": [],
+        "provider_index": [
+            7
+        ]
+    },
+    {
+        "bitwidth": 16,
+        "consumer": [
+            "37"
+        ],
+        "consumer_num": 1,
+        "index": 9,
+        "name": "36",
+        "operation": "OP_CONV",
+        "output_dim": [
+            1,
+            16,
+            4,
+            4
+        ],
+        "output_dim_num": 4,
+        "param": {
+            "dilation_h": 1,
+            "dilation_w": 1,
+            "group": 1,
+            "input_channel": 16,
+            "kernel_h": 3,
+            "kernel_w": 3,
+            "output_channel": 16,
+            "pad_h0": 1,
+            "pad_h1": 1,
+            "pad_w0": 1,
+            "pad_w1": 1,
+            "stride_h": 1,
+            "stride_w": 1,
+            "weight_name": "var_13",
+            "weight_name_begin": 1160,
+            "weight_name_end": 1928,
+            "with_bias": 1,
+            "with_bias_begin": 1928,
+            "with_bias_end": 1944,
+            "with_bias_name": "var_14"
+        },
+        "provider": [
+            "34"
+        ],
+        "provider_num": 1,
+        "input_dim_num": 4,
+        "input_dim": [
+            1,
+            16,
+            4,
+            4
+        ],
+        "with_act": 1,
+        "act_type": 0,
+        "new_node_index": 9,
+        "consumer_index": [],
+        "provider_index": [
+            8
+        ]
+    },
+    {
+        "bitwidth": 16,
+        "consumer": [
+            "39"
+        ],
+        "consumer_num": 1,
+        "index": 10,
+        "name": "38",
+        "operation": "OP_CONV",
+        "output_dim": [
+            1,
+            16,
+            4,
+            4
+        ],
+        "output_dim_num": 4,
+        "param": {
+            "dilation_h": 1,
+            "dilation_w": 1,
+            "group": 1,
+            "input_channel": 16,
+            "kernel_h": 3,
+            "kernel_w": 3,
+            "output_channel": 16,
+            "pad_h0": 1,
+            "pad_h1": 1,
+            "pad_w0": 1,
+            "pad_w1": 1,
+            "stride_h": 1,
+            "stride_w": 1,
+            "weight_name": "var_15",
+            "weight_name_begin": 1944,
+            "weight_name_end": 2712,
+            "with_bias": 1,
+            "with_bias_begin": 2712,
+            "with_bias_end": 2728,
+            "with_bias_name": "var_16"
+        },
+        "provider": [
+            "36"
+        ],
+        "provider_num": 1,
+        "input_dim_num": 4,
+        "input_dim": [
+            1,
+            16,
+            4,
+            4
+        ],
+        "with_act": 1,
+        "act_type": 0,
+        "new_node_index": 10,
+        "consumer_index": [],
+        "provider_index": [
+            9
+        ]
+    },
+    {
+        "bitwidth": 16,
+        "consumer": [
+            "41"
+        ],
+        "consumer_num": 1,
+        "index": 11,
+        "name": "40",
+        "operation": "OP_POOL",
+        "output_dim": [
+            1,
+            16,
+            2,
+            2
+        ],
+        "output_dim_num": 4,
+        "param": {
+            "global": 0,
+            "kernel_h": 2,
+            "kernel_w": 2,
+            "pad_h0": 0,
+            "pad_h1": 0,
+            "pad_w0": 0,
+            "pad_w1": 0,
+            "pool_method": 0,
+            "stride_h": 2,
+            "stride_w": 2
+        },
+        "provider": [
+            "38"
+        ],
+        "provider_num": 1,
+        "input_dim_num": 4,
+        "input_dim": [
+            1,
+            16,
+            4,
+            4
+        ],
+        "new_node_index": 11,
+        "consumer_index": [
+            12
+        ],
+        "provider_index": [
+            10
+        ]
+    },
+    {
+        "bitwidth": 16,
+        "consumer": [
+            "42"
+        ],
+        "consumer_num": 1,
+        "index": 12,
+        "name": "41",
+        "operation": "OP_CONV",
+        "output_dim": [
+            1,
+            32,
+            2,
+            2
+        ],
+        "output_dim_num": 4,
+        "param": {
+            "dilation_h": 1,
+            "dilation_w": 1,
+            "group": 1,
+            "input_channel": 16,
+            "kernel_h": 3,
+            "kernel_w": 3,
+            "output_channel": 32,
+            "pad_h0": 1,
+            "pad_h1": 1,
+            "pad_w0": 1,
+            "pad_w1": 1,
+            "stride_h": 1,
+            "stride_w": 1,
+            "weight_name": "var_18",
+            "weight_name_begin": 2728,
+            "weight_name_end": 4264,
+            "with_bias": 1,
+            "with_bias_begin": 4264,
+            "with_bias_end": 4296,
+            "with_bias_name": "var_19"
+        },
+        "provider": [
+            "40"
+        ],
+        "provider_num": 1,
+        "input_dim_num": 4,
+        "input_dim": [
+            1,
+            16,
+            2,
+            2
+        ],
+        "with_act": 1,
+        "act_type": 0,
+        "new_node_index": 12,
+        "consumer_index": [],
+        "provider_index": [
+            11
+        ]
+    },
+    {
+        "bitwidth": 16,
+        "consumer": [
+            "44"
+        ],
+        "consumer_num": 1,
+        "index": 13,
+        "name": "43",
+        "operation": "OP_CONV",
+        "output_dim": [
+            1,
+            32,
+            2,
+            2
+        ],
+        "output_dim_num": 4,
+        "param": {
+            "dilation_h": 1,
+            "dilation_w": 1,
+            "group": 1,
+            "input_channel": 32,
+            "kernel_h": 3,
+            "kernel_w": 3,
+            "output_channel": 32,
+            "pad_h0": 1,
+            "pad_h1": 1,
+            "pad_w0": 1,
+            "pad_w1": 1,
+            "stride_h": 1,
+            "stride_w": 1,
+            "weight_name": "var_20",
+            "weight_name_begin": 4296,
+            "weight_name_end": 7368,
+            "with_bias": 1,
+            "with_bias_begin": 7368,
+            "with_bias_end": 7400,
+            "with_bias_name": "var_21"
+        },
+        "provider": [
+            "41"
+        ],
+        "provider_num": 1,
+        "input_dim_num": 4,
+        "input_dim": [
+            1,
+            32,
+            2,
+            2
+        ],
+        "with_act": 1,
+        "act_type": 0,
+        "new_node_index": 13,
+        "consumer_index": [],
+        "provider_index": [
+            12
+        ]
+    },
+    {
+        "bitwidth": 16,
+        "consumer": [
+            "46"
+        ],
+        "consumer_num": 1,
+        "index": 14,
+        "name": "45",
+        "operation": "OP_CONV",
+        "output_dim": [
+            1,
+            32,
+            2,
+            2
+        ],
+        "output_dim_num": 4,
+        "param": {
+            "dilation_h": 1,
+            "dilation_w": 1,
+            "group": 1,
+            "input_channel": 32,
+            "kernel_h": 3,
+            "kernel_w": 3,
+            "output_channel": 32,
+            "pad_h0": 1,
+            "pad_h1": 1,
+            "pad_w0": 1,
+            "pad_w1": 1,
+            "stride_h": 1,
+            "stride_w": 1,
+            "weight_name": "var_22",
+            "weight_name_begin": 7400,
+            "weight_name_end": 10472,
+            "with_bias": 1,
+            "with_bias_begin": 10472,
+            "with_bias_end": 10504,
+            "with_bias_name": "var_23"
+        },
+        "provider": [
+            "43"
+        ],
+        "provider_num": 1,
+        "input_dim_num": 4,
+        "input_dim": [
+            1,
+            32,
+            2,
+            2
+        ],
+        "with_act": 1,
+        "act_type": 0,
+        "new_node_index": 14,
+        "consumer_index": [],
+        "provider_index": [
+            13
+        ]
+    },
+    {
+        "bitwidth": 16,
+        "consumer": [
+            "55"
+        ],
+        "consumer_num": 1,
+        "index": 15,
+        "name": "47",
+        "operation": "OP_POOL",
+        "output_dim": [
+            1,
+            32,
+            1,
+            1
+        ],
+        "output_dim_num": 4,
+        "param": {
+            "global": 0,
+            "kernel_h": 2,
+            "kernel_w": 2,
+            "pad_h0": 0,
+            "pad_h1": 0,
+            "pad_w0": 0,
+            "pad_w1": 0,
+            "pool_method": 0,
+            "stride_h": 2,
+            "stride_w": 2
+        },
+        "provider": [
+            "45"
+        ],
+        "provider_num": 1,
+        "input_dim_num": 4,
+        "input_dim": [
+            1,
+            32,
+            2,
+            2
+        ],
+        "new_node_index": 15,
+        "consumer_index": [
+            16
+        ],
+        "provider_index": [
+            14
+        ]
+    },
+    {
+        "bitwidth": 16,
+        "consumer": [
+            "56"
+        ],
+        "consumer_num": 1,
+        "index": 16,
+        "name": "55",
+        "operation": "OP_RESHAPE",
+        "output_dim": [],
+        "output_dim_num": 0,
+        "provider": [
+            "47"
+        ],
+        "provider_num": 1,
+        "input_dim_num": 4,
+        "input_dim": [
+            1,
+            32,
+            1,
+            1
+        ],
+        "new_node_index": 16,
+        "consumer_index": [
+            17
+        ],
+        "provider_index": [
+            15
+        ]
+    },
+    {
+        "bitwidth": 16,
+        "consumer_num": 0,
+        "index": 17,
+        "name": "56",
+        "operation": "OP_FC",
+        "output_dim": [
+            1,
+            10
+        ],
+        "output_dim_num": 2,
+        "param": {
+            "num_input": 32,
+            "num_output": 10,
+            "weight_name": "var_31",
+            "weight_name_begin": 10504,
+            "weight_name_end": 10544,
+            "with_bias": 1,
+            "with_bias_begin": 10544,
+            "with_bias_end": 10554,
+            "with_bias_name": "var_32"
+        },
+        "provider": [
+            "55"
+        ],
+        "provider_num": 1,
+        "input_dim_num": 0,
+        "input_dim": [],
+        "new_node_index": 17,
+        "consumer_index": [],
+        "provider_index": [
+            16
+        ]
+    }
+]

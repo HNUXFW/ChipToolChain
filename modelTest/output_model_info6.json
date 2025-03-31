@@ -1,0 +1,20 @@
+[
+    "OP_INPUT",
+    "OP_PAD",
+    "OP_CONV",
+    "OP_CONV",
+    "OP_POOL",
+    "OP_CONV",
+    "OP_CONV",
+    "OP_POOL",
+    "OP_CONV",
+    "OP_CONV",
+    "OP_CONV",
+    "OP_POOL",
+    "OP_CONV",
+    "OP_CONV",
+    "OP_CONV",
+    "OP_POOL",
+    "OP_RESHAPE",
+    "OP_FC"
+]
