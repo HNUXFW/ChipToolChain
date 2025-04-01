@@ -4,7 +4,7 @@ import numpy as np
 onnx_model_path = "model/VGGsirea5.onnx"
 ort_session = ort.InferenceSession(onnx_model_path)
 from PIL import Image
-image=Image.open("./MNIST/1.jpg")
+image = Image.open("C:/Users/22661/Desktop/西科/modelTest/MNIST/2.jpg")
 #将image转化为input大小的格式
 image = image.resize((32, 32))
 if image.mode != 'RGB':
