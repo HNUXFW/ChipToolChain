@@ -81,17 +81,15 @@ class App(tk.Tk):
             width=12  # 调整宽度
         )
         run_btn.pack(pady=5)
-        # run_btn.pack(side=tk.LEFT, padx=20)
-
         # ========== 输出区域 ==========
         output_paned = ttk.PanedWindow(main_frame, orient=tk.HORIZONTAL)
         output_paned.pack(fill=tk.BOTH, expand=True)
 
         # 左侧 - 执行日志
-        left_frame = ttk.Frame(output_paned,width=350)
-        left_frame.pack_propagate(False)  # 禁止子控件改变框架大小
+        left_frame = ttk.Frame(output_paned, width=350)
+        left_frame.pack_propagate(False)
         log_label = ttk.Label(left_frame, text="执行日志:", font=("Arial", 12))
-        log_label.pack(anchor="w")
+        log_label.pack(anchor="w", padx=5, pady=(0, 5))  # 添加上边距
 
         self.log_text = tk.Text(
             left_frame,
@@ -103,25 +101,39 @@ class App(tk.Tk):
             height=15
         )
         log_scroll = ttk.Scrollbar(left_frame, command=self.log_text.yview)
-
         self.log_text.configure(yscrollcommand=log_scroll.set)
         log_scroll.pack(side=tk.RIGHT, fill=tk.Y)
-        self.log_text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        
+        self.log_text.pack(side=tk.TOP, fill=tk.BOTH, expand=True)  # 关键：使用TOP填充
 
         # 右侧 - 结果记录
         right_frame = ttk.Frame(output_paned)
-        result_label = ttk.Label(right_frame, text="执行结果:", font=("Arial", 12))
-        result_label.pack(anchor="w")
+        table_container = ttk.Frame(right_frame)
+        table_container.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)  # 添加边距
 
-        # 结果表格
+        result_label = ttk.Label(
+            table_container,
+            text="执行结果:",
+            font=("Arial", 12),
+            anchor="w"
+        )
+        result_label.pack(fill=tk.X, padx=5, pady=(0, 5))
+
+        table_scroll_frame = ttk.Frame(table_container)
+        table_scroll_frame.pack(fill=tk.BOTH, expand=True)
+
         self.result_table = ttk.Treeview(
-            right_frame,
+            table_scroll_frame,  # 修改父容器为table_scroll_frame
             columns=("选择", "ID", "图片路径", "输出概率", "是否优化", "输出时间"),
             show="headings",
             height=15,
             selectmode="none"
         )
+        result_scroll = ttk.Scrollbar(table_scroll_frame, command=self.result_table.yview)
+        self.result_table.configure(yscrollcommand=result_scroll.set)
+        self.result_table.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        result_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+
+
 
         # 设置列
 
@@ -142,36 +154,35 @@ class App(tk.Tk):
         self.result_table.tag_configure("selected", background="#e6f3ff")
         self.checkboxes = {}  # 存储复选框变量
 
-        # 滚动条
-        result_scroll = ttk.Scrollbar(right_frame, command=self.result_table.yview)
-        self.result_table.configure(yscrollcommand=result_scroll.set)
-        self.result_table.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        result_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+
+
+        output_paned.add(left_frame, weight=0)
+        output_paned.add(right_frame, weight=1)
 
         # 优化比计算区域
-        calc_frame = ttk.Frame(right_frame)
-        calc_frame.pack(fill=tk.X, pady=(10, 0))
+        calc_frame = ttk.Frame(main_frame)
+        calc_frame.pack(side=tk.BOTTOM, fill=tk.X, padx=5, pady=(0, 10))
+
+        calc_btn_container = ttk.Frame(calc_frame)
+        calc_btn_container.pack(side=tk.RIGHT, anchor="se", padx=15)
 
         calc_btn = tk.Button(
-            calc_frame,
+            calc_btn_container,
             text="优化比计算",
             command=self.calculate_ratio,
             bg="#007bff",
             fg="black",
-            font=("Arial", 14, "bold"),  # 调小字体
+            font=("Arial", 12, "bold"),
             activebackground="#0056b3"
         )
-        calc_btn.pack(pady=5)
+        calc_btn.pack(side=tk.TOP)
 
         self.ratio_label = ttk.Label(
-            calc_frame,
+            calc_btn_container,
             text="等待计算...",
             font=("Arial", 12)
         )
-        self.ratio_label.pack()
-
-        output_paned.add(left_frame,weight=0)
-        output_paned.add(right_frame,weight=1)
+        self.ratio_label.pack(side=tk.BOTTOM, pady=(5, 0))
 
         # 自定义样式
         self.style = ttk.Style()
@@ -185,14 +196,6 @@ class App(tk.Tk):
         self.execution_records = []
         self.record_id = 1
 
-    # def select_image(self):
-    #     """选择图片文件"""
-    #     filetypes = [("图片文件", "*.jpg *.jpeg *.png *.bmp")]
-    #     path = filedialog.askopenfilename(title="选择图片", filetypes=filetypes)
-    #     if path:
-    #         self.image_path_entry.delete(0, tk.END)
-    #         self.image_path_entry.insert(0, path)
-    #     self.replace_image_path_in_tvm(self.image_path_entry.get())
     def select_image(self, event=None):
         """选择图片文件"""
         filetypes = [("图片文件", "*.jpg *.jpeg *.png *.bmp")]
