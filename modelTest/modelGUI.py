@@ -86,7 +86,7 @@ class App(tk.Tk):
         output_paned.pack(fill=tk.BOTH, expand=True)
 
         # 左侧 - 执行日志
-        left_frame = ttk.Frame(output_paned, width=350)
+        left_frame = ttk.Frame(output_paned, width=400)
         left_frame.pack_propagate(False)
         log_label = ttk.Label(left_frame, text="执行日志:", font=("Arial", 12))
         log_label.pack(anchor="w", padx=5, pady=(0, 5))  # 添加上边距
@@ -133,17 +133,14 @@ class App(tk.Tk):
         self.result_table.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         result_scroll.pack(side=tk.RIGHT, fill=tk.Y)
 
-
-
         # 设置列
-
         columns = {
-            "选择": {"width": 40, "anchor": "center"},  # 空标题
-            "ID": {"width": 40, "anchor": "center"},
-            "图片路径": {"width": 80},
+            "选择": {"width": 20, "anchor": "center"},  # 空标题
+            "ID": {"width": 20, "anchor": "center"},
+            "图片路径": {"width": 50},
             "输出概率": {"width": 200},
-            "是否优化": {"width": 60, "anchor": "center"},
-            "输出时间": {"width": 60, "anchor": "center"}
+            "是否优化": {"width": 30, "anchor": "center"},
+            "输出时间": {"width": 30, "anchor": "center"}
         }
 
         for col, config in columns.items():
@@ -186,12 +183,17 @@ class App(tk.Tk):
 
         # 自定义样式
         self.style = ttk.Style()
-        self.style.configure("Custom.TCheckbutton", font=("Arial", 12))
-        self.style.configure("Accent.TButton", font=("Arial", 12), foreground="white", background="#007bff")
-        self.style.map("Accent.TButton",
-                       foreground=[('pressed', 'white'), ('active', 'white')],
-                       background=[('pressed', '#0056b3'), ('active', '#0069d9')])
-
+        # self.style.configure("Custom.TCheckbutton", font=("Arial", 12))
+        # self.style.configure("Accent.TButton", font=("Arial", 12), foreground="white", background="#007bff")
+        # self.style.map("Accent.TButton",
+        #                foreground=[('pressed', 'white'), ('active', 'white')],
+        #                background=[('pressed', '#0056b3'), ('active', '#0069d9')])
+        self.style.theme_use("alt")
+        self.style.configure('.',
+                             background='#f0f0f0',
+                             foreground='#2c3e50',
+                             font=('Arial', 10)
+                             )
         # 存储执行记录
         self.execution_records = []
         self.record_id = 1
@@ -303,7 +305,8 @@ class App(tk.Tk):
             for cmd in commands:
                 self.log_text.insert(tk.END, f">> 执行：{cmd}\n")
                 self.update()
-
+                if "HNU-R-DDR.py" in cmd:
+                    start_time=time()
                 result = subprocess.run(
                     cmd,
                     shell=True,
@@ -437,7 +440,7 @@ class App(tk.Tk):
 
         result_text = f"优化比: {ratio*100}%"
         self.ratio_label.config(text=result_text)
-        self.log_text.insert(tk.END, f"\n优化比计算结果: {result_text}\n")
+        self.log_text.insert(tk.END, f"\n优化比计算结果: {result_text:.2f}\n")
 
 
 if __name__ == "__main__":
