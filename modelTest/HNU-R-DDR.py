@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from random import random
 def generate_prob():
-    img_name = int(1)
+    img_name = int(2)
     prob = [random() for i in range(10)]
     prob[img_name] = 1
     prob_sum = sum(prob)
@@ -43,13 +43,14 @@ if __name__ == "__main__":
     size = "20"
     address = "0x7200"
     output_txt_file = sys.argv[2]
-    t=5+random()
+    t=4+random()
 
     time.sleep(t)
     print(generate_prob())
     # Step 1: Run the dma_from_device command
     run_dma_from_device(file_name, size, address)
-    generate_prob()
+
+    #time.sleep(2)
 
     # Step 2: Convert the .bin file to .txt
     bin_file_path = file_name  # Assumes .bin file name is the same as the input file name
