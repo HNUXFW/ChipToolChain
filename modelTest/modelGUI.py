@@ -47,14 +47,14 @@ class App(tk.Tk):
             highlightbackground="#ccc"
         )
 
-        self.canvas.pack(side=tk.LEFT, padx=(10,80))  # 左对齐并添加间距
+        self.canvas.pack(side=tk.LEFT)  # 左对齐并添加间距
         self.canvas.bind("<Button-1>", self.select_image)
         self.update_idletasks()
         self.draw_crosshair()
 
         # ========== 控制按钮区 ==========
         button_frame = ttk.Frame(control_bar)
-        button_frame.pack(side=tk.LEFT, padx=80, anchor="center")  # 左对齐并添加间距
+        button_frame.pack(side=tk.LEFT, padx=100, anchor="center")  # 左对齐并添加间距
 
         # 优化选项
         self.optimize_var = tk.BooleanVar()
@@ -64,7 +64,7 @@ class App(tk.Tk):
             variable=self.optimize_var,
             style="Custom.TCheckbutton"
         )
-        optimize_check.pack(pady=5)  # 垂直排列
+        optimize_check.pack(pady=5,anchor=tk.CENTER)  # 垂直排列
 
         # 运行按钮
         run_btn = tk.Button(
@@ -80,7 +80,7 @@ class App(tk.Tk):
             pady=5,
             width=12  # 调整宽度
         )
-        run_btn.pack(pady=5)
+        run_btn.pack(pady=10,anchor=tk.CENTER)
         # ========== 输出区域 ==========
         output_paned = ttk.PanedWindow(main_frame, orient=tk.HORIZONTAL)
         output_paned.pack(fill=tk.BOTH, expand=True)
@@ -208,7 +208,17 @@ class App(tk.Tk):
             try:
                 # 显示缩略图
                 img = Image.open(path)
-                img.thumbnail((300, 200))
+                # img.thumbnail((900, 500))
+                # 计算缩放比例，保持宽高比
+                canvas_width = self.canvas.winfo_width()
+                canvas_height = self.canvas.winfo_height()
+
+                # 计算缩放比例
+                ratio = min(canvas_width / img.width, canvas_height / img.height)
+                new_size = (int(img.width * ratio), int(img.height * ratio))
+
+                # 缩放图片
+                img = img.resize(new_size, Image.Resampling.LANCZOS)
                 photo = ImageTk.PhotoImage(img)
 
                 # 清除画布并显示图片
@@ -431,16 +441,9 @@ class App(tk.Tk):
 
         time1, time2 = records[0]["time"], records[1]["time"]
         ratio = round((max(time1, time2)-min(time1,time2)) / max(time1, time2), 2)
+        result_text = f"优化比: {ratio*100:.2f}%"
+        self.ratio_label.config(text=result_text,foreground="green")
 
-        # 判断哪个更快
-        # if time1 < time2:
-        #     faster = "配置1" if records[0]["optimized"] else "配置2"
-        # else:
-        #     faster = "配置2" if records[1]["optimized"] else "配置1"
-
-        result_text = f"优化比: {ratio*100}%"
-        self.ratio_label.config(text=result_text)
-        self.log_text.insert(tk.END, f"\n优化比计算结果: {result_text:.2f}\n")
 
 
 if __name__ == "__main__":

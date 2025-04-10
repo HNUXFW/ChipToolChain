@@ -43,14 +43,13 @@ if __name__ == "__main__":
     size = "20"
     address = "0x7200"
     output_txt_file = sys.argv[2]
-    t=4+random()
+    t=5+random()
 
     time.sleep(t)
     print(generate_prob())
     # Step 1: Run the dma_from_device command
     run_dma_from_device(file_name, size, address)
-
-    #time.sleep(2)
+    generate_prob()
 
     # Step 2: Convert the .bin file to .txt
     bin_file_path = file_name  # Assumes .bin file name is the same as the input file name
