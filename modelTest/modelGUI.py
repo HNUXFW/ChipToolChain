@@ -26,7 +26,7 @@ class App(tk.Tk):
         title_label = ttk.Label(
             main_frame,
             text="可重构工具链执行界面",
-            font=("Arial", 20, "bold"),
+            font=("TkDefaultFont", 20, "bold"),
             foreground="#2c3e50",
             anchor="center"
         )
@@ -73,7 +73,7 @@ class App(tk.Tk):
             command=self.run_code,
             bg="#007bff",
             fg="black",
-            font=("Arial", 14, "bold"),  # 调小字体
+            font=("TkDefaultFont", 14, "bold"),  # 调小字体
             activebackground="#0056b3",
             relief="flat",
             padx=15,
@@ -230,7 +230,7 @@ class App(tk.Tk):
                     anchor="center"
                 )
                 self.canvas.image = photo  # 保持引用
-
+                print(f"此时的图片路径为{path}")
                 # 更新tvm文件中的路径
                 self.replace_image_path_in_tvm(path)
 
@@ -268,21 +268,33 @@ class App(tk.Tk):
         #当前文件路径
         current_dir = os.path.dirname(os.path.abspath(__file__))
         tvm_path = os.path.join(current_dir, "tvm11.py")
-        print(tvm_path)
         if not os.path.exists(tvm_path):
             messagebox.showerror("错误", "tvm11.py 文件不存在")
             return
         try:
             with open(tvm_path, 'r', encoding='utf-8') as file:
-                code = file.read()
+                lines = file.readlines()
 
+                # 查找包含 Image.open 的行
+            new_lines = []
+            replaced = False
+            for line in lines:
+                if "Image.open" in line:
+                    # 替换路径，保留原始代码格式
+                    line = re.sub(
+                        r'Image\.open\(["\'][^"\']*["\']\)',
+                        f'Image.open("{new_path}")',
+                        line
+                    )
+                    replaced = True
+                new_lines.append(line)
 
-            # 使用正则表达式找到并替换图片路径
-            code = re.sub(r'image=Image\.open\(["\'](.*?)["\']\)', f'image=Image.open("{new_path}")', code)
-            print(code)
+            if not replaced:
+                self.log_text.insert(tk.END, "警告: 未找到 Image.open 语句\n")
+                return False
+
             with open(tvm_path, 'w', encoding='utf-8') as file:
-                file.write(code)
-
+                file.writelines(new_lines)
         except Exception as e:
             self.log_text.insert(tk.END, f"替换图片路径时出错: {str(e)}\n")
             messagebox.showerror("错误", f"替换图片路径时发生错误: {str(e)}")
@@ -324,7 +336,8 @@ class App(tk.Tk):
                     text=True,
                     encoding="utf-8",
                     errors="ignore",
-                    cwd=current_dir
+                    cwd=current_dir,
+
                 )
                 self.log_text.insert(tk.END, result.stdout + "\n")
                 self.update()
