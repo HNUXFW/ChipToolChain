@@ -172,10 +172,10 @@ class App(ttk.Window):
 
         # 设置未优化表格列
         unoptimized_columns = {
-            "选择": {"width": 50, "anchor": "center"},
-            "ID": {"width": 50, "anchor": "center"},
-            "输出概率": {"width": 200},
-            "输出时间": {"width": 100, "anchor": "center"}
+            "选择": {"width": 50, "stretch": False},
+            "ID": {"width": 50, "stretch": False},
+            "输出概率": {"width": 180, "stretch": True, "anchor": "center"},
+            "输出时间": {"width": 90, "stretch": False}
         }
 
         for col, config in unoptimized_columns.items():
@@ -213,11 +213,12 @@ class App(ttk.Window):
 
         # 设置优化表格列
         optimized_columns = {
-            "选择": {"width": 50, "anchor": "center"},
-            "ID": {"width": 50, "anchor": "center"},
-            "输出概率": {"width": 200},
-            "输出时间": {"width": 100, "anchor": "center"}
+            "选择": {"width": 50, "stretch": False},
+            "ID": {"width": 50, "stretch": False},
+            "输出概率": {"width": 180, "stretch": True, "anchor": "center"},
+            "输出时间": {"width": 90, "stretch": False}
         }
+        self.optimized_table.column("#0", width=0, stretch=tk.NO)
 
         for col, config in optimized_columns.items():
             self.optimized_table.heading(col, text=col)
