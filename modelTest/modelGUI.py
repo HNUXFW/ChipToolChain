@@ -158,7 +158,7 @@ class App(ttk.Window):
 
         self.unoptimized_table = ttk.Treeview(
             unoptimized_table_frame,
-            columns=("选择", "ID", "输出概率", "输出时间"),
+            columns=("选择", "ID", "输出概率", "最大值索引", "输出时间"),
             show="headings",
             selectmode="none"
         )
@@ -174,8 +174,9 @@ class App(ttk.Window):
         unoptimized_columns = {
             "选择": {"width": 50, "stretch": False},
             "ID": {"width": 50, "stretch": False},
-            "输出概率": {"width": 180, "stretch": True, "anchor": "center"},
-            "输出时间": {"width": 90, "stretch": False}
+            "输出概率": {"width": 200, "stretch": True, "anchor": "center"},
+            "最大值索引": {"width": 120,"stretch": False,"anchor": "center"},
+            "输出时间": {"width": 50, "stretch": False}
         }
 
         for col, config in unoptimized_columns.items():
@@ -199,7 +200,7 @@ class App(ttk.Window):
 
         self.optimized_table = ttk.Treeview(
             optimized_table_frame,
-            columns=("选择", "ID", "输出概率", "输出时间"),
+            columns=("选择", "ID", "输出概率", "最大值索引", "输出时间"),
             show="headings",
             selectmode="none"
         )
@@ -215,8 +216,9 @@ class App(ttk.Window):
         optimized_columns = {
             "选择": {"width": 50, "stretch": False},
             "ID": {"width": 50, "stretch": False},
-            "输出概率": {"width": 180, "stretch": True, "anchor": "center"},
-            "输出时间": {"width": 90, "stretch": False}
+            "输出概率": {"width": 200, "stretch": True, "anchor": "center"},
+            "最大值索引": {"width": 120, "stretch": False, "anchor": "center"},
+            "输出时间": {"width": 50, "stretch": False}
         }
         self.optimized_table.column("#0", width=0, stretch=tk.NO)
 
@@ -399,12 +401,16 @@ class App(ttk.Window):
             # 计算执行时间
             exec_time = round(time() - start_time, 2)
 
+            # 解析概率数组并找到最大值索引
+            max_index = self.get_max_probability_index(probability)
+
             # 添加到结果表格
             if optimize:
                 item_id = self.optimized_table.insert("", "end",
                                                       values=("☐",  # 初始为未选中
                                                               self.record_id,
                                                               probability,
+                                                              max_index,
                                                               f"{exec_time:.2f}"),
                                                       tags=("record", "unchecked"))
                 self.selection_state['optimized'][item_id] = False
@@ -413,6 +419,7 @@ class App(ttk.Window):
                                                         values=("☐",  # 初始为未选中
                                                                 self.record_id,
                                                                 probability,
+                                                                max_index,
                                                                 f"{exec_time:.2f}"),
                                                         tags=("record", "unchecked"))
                 self.selection_state['unoptimized'][item_id] = False
@@ -422,6 +429,7 @@ class App(ttk.Window):
                 "id": self.record_id,
                 "image_path": image_path,
                 "probability": probability,
+                "max_index": max_index,
                 "optimized": optimize,
                 "exec_time": exec_time
             })
@@ -433,6 +441,23 @@ class App(ttk.Window):
         except Exception as e:
             self.log_text.insert(tk.END, f"\n执行出错: {str(e)}\n")
             messagebox.showerror("错误", f"执行过程中发生错误: {str(e)}")
+
+    def get_max_probability_index(self, probability_str):
+        """从概率字符串中获取最大值索引"""
+        try:
+            # 提取方括号内的数字
+            match = re.search(r'\[([^\]]+)\]', probability_str)
+            if not match:
+                return "N/A"
+
+            # 解析为浮点数列表
+            probabilities = [float(x.strip()) for x in match.group(1).split(',')]
+
+            # 找到最大值索引
+            max_index = probabilities.index(max(probabilities))
+            return str(max_index)
+        except Exception as e:
+            return "N/A"
 
     def on_cell_click(self, event):
         """处理单元格点击事件"""
@@ -527,7 +552,7 @@ class App(ttk.Window):
                     values = table.item(item_id)['values']
                     selected.append({
                         'optimized': table_type == 'optimized',
-                        'time': float(values[3]),  # 输出时间
+                        'time': float(values[4]),  # 输出时间
                         'id': values[1]  # ID
                     })
 
