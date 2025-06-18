@@ -47,6 +47,28 @@ class App(ttk.Window):
         control_frame = ttk.Frame(left_frame)
         control_frame.pack(fill=tk.X, pady=(0, 20))
 
+        # 模型选择框架
+        model_frame=ttk.Frame(control_frame)
+        model_frame.pack(side=tk.TOP,anchor="w")
+
+        model_label=ttk.Label(
+            model_frame,
+            text="模型选择:",
+            font=("YaHei", 10)
+        )
+        model_label.pack(side=tk.LEFT)
+        # 创建模型选择变量和下拉框
+        self.model_var=ttk.StringVar(value="Lenet")
+        model_combobox=ttk.Combobox(
+            model_frame,
+            textvariable=self.model_var,
+            values=["Lenet", "VGG"],
+            state="readonly",
+            width=10
+        )
+        model_combobox.pack(side=tk.LEFT)
+        model_combobox.bind("<<ComboboxSelected>>", self.on_model_change)
+
         # 图片选择框
         self.image_path = ""
         canvas_frame = ttk.Frame(control_frame, borderwidth=2, relief="solid")
@@ -316,6 +338,24 @@ class App(ttk.Window):
             fill="#a0a0a0",
             font=("YaHei", 12)
         )
+    def on_model_change(self,event):
+        """处理模型切换事件"""
+        # 清空日志
+        self.log_text.delete(1.0, tk.END)
+        self.log_text.insert(tk.END, f"切换到 {self.model_var.get()} 模型\n")
+
+        # 清空结果表格
+        self.unoptimized_table.delete(*self.unoptimized_table.get_children())
+        self.optimized_table.delete(*self.optimized_table.get_children())
+
+        # 重置选择状态
+        self.selection_state = {'optimized': {}, 'unoptimized': {}}
+
+        # 重置优化比显示
+        self.ratio_label.config(text="等待计算...")
+
+        # 重置记录ID
+        self.record_id = 1
 
     def replace_image_path_in_tvm(self, new_path):
         """替换tvm11.py文件中的图片路径"""
